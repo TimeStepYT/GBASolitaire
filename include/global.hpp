@@ -1,0 +1,5 @@
+#define CARD_WIDTH 32
+#define CARD_HEIGHT 42
+#define SCREEN_WIDTH 240
+#define SCREEN_HEIGHT 160
+#define LEFT_EDGE -SCREEN_WIDTH / 2
