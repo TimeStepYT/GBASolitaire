@@ -43,7 +43,7 @@ void Card::initFaceSprites() {
 	auto symbol = bn::sprite_items::symbols.create_sprite(numberSprite.x() + 8, numberSprite.y());
 	auto numberSpriteRotated = bn::sprite_items::numbers.create_sprite(getPositionX() + CARD_WIDTH / 2 - 4 - 2, getPositionY() + CARD_HEIGHT / 2 - 4 - 2);
 	auto symbolRotated = bn::sprite_items::symbols.create_sprite(numberSpriteRotated.x() - 7, numberSpriteRotated.y() + 1);
-	
+
 	numberSprite.set_tiles(numberTile);
 	symbol.set_tiles(symbolTile);
 	numberSpriteRotated.set_tiles(numberTile);

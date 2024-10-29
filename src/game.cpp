@@ -20,8 +20,10 @@ bool addNumberToVector(bn::vector<int, 13>& vec, int content) {
 }
 
 void Game::initPlayingBoard() {
+	int prevColMax = 0;
+	int colMax = 0;
+	int layer = 0;
 	for (int i = 0; i < 28; i++) {
-		bn::core::update();
 		Type cardType;
 		int cardNumber;
 		bool leave = false;
@@ -33,39 +35,40 @@ void Game::initPlayingBoard() {
 		}
 		auto newCard = Card::create(cardType, cardNumber);
 		newCard->setPositionY(newCard->getPositionY() - 10);
+
+		if (i >= colMax) {
+			prevColMax = colMax;
+			if (colMax != 0) layer++;
+		}
 		if (i < 7) {
-			newCard->setColumn(i);
-			newCard->setLayer(0);
+			colMax = 7;
 		}
 		else if (i < 13) {
-			newCard->setColumn(i - 6);
-			newCard->setLayer(1);
+			colMax = 13;
 		}
 		else if (i < 18) {
-			newCard->setColumn(i - 11);
-			newCard->setLayer(2);
+			colMax = 18;
 		}
 		else if (i < 22) {
-			newCard->setColumn(i - 15);
-			newCard->setLayer(3);
+			colMax = 22;
 		}
 		else if (i < 25) {
-			newCard->setColumn(i - 18);
-			newCard->setLayer(4);
+			colMax = 25;
 		}
 		else if (i < 27) {
-			newCard->setColumn(i - 20);
-			newCard->setLayer(5);
+			colMax = 27;
 		}
 		else if (i < 28) {
-			newCard->setColumn(i - 21);
-			newCard->setLayer(6);
+			colMax = 28;
 		}
-		m_cards.push_back(newCard);
-	}
 
-	for (auto col : m_cardsOnCol) {
-		col[col.size() - 1]->setFlipped(false);
+		int const col = i - (prevColMax - layer);
+		newCard->setColumn(col);
+		newCard->setLayer(layer);
+		if (i == prevColMax) newCard->setFlipped(false);
+
+		m_cards.push_back(newCard);
+		bn::core::update();
 	}
 }
 
@@ -96,14 +99,21 @@ void Game::setupGame() {
 	initDrawingStack();
 }
 
-void Game::startLoop() {
+void Game::drawCard() {
+
+}
+
+void Game::gameLoop() {
 	bool setUp = false;
-	while (true) { // game loop
+	while (true) {
 		rndm.update();
 
 		if (bn::keypad::a_pressed() && !setUp) {
 			setupGame();
 			setUp = true;
+		}
+		else if (bn::keypad::l_pressed() && setUp) {
+			drawCard();
 		}
 
 		bn::core::update();

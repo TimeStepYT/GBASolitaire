@@ -22,5 +22,6 @@ public:
 	void initPlayingBoard();
 	void initDrawingStack();
 	void setupGame();
-	void startLoop();
+	void gameLoop();
+	void drawCard();
 };
