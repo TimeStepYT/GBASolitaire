@@ -13,7 +13,9 @@ DrawingStack* DrawingStack::get() {
 }
 
 void DrawingStack::drawCard() {
-	
+	auto newCard = Card::create();
+	newCard->setFlipped(false);
+	m_drawnAmount++;
 }
 
 void DrawingStack::initDrawingStack() {
@@ -36,7 +38,7 @@ void DrawingStack::initDrawingStack() {
 		m_cardsOnDeck.push_back(map);
 		cardsAdded++;
 	}
-	auto newCard = Card::create();
-	newCard->setPosition(-SCREEN_WIDTH / 2 + CARD_WIDTH / 2 + 2, -SCREEN_HEIGHT / 2 + CARD_HEIGHT / 2 + 3);
-	m_drawingCard = newCard;
+	auto drawingCard = Card::create();
+	drawingCard->setPosition((-SCREEN_WIDTH + CARD_WIDTH) / 2 + 2, (-SCREEN_HEIGHT + CARD_HEIGHT) / 2 + 3);
+	m_drawingCard = drawingCard;
 }
