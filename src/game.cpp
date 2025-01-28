@@ -42,27 +42,13 @@ void Game::initPlayingBoard() {
 			prevColMax = colMax;
 			if (colMax != 0) layer++;
 		}
-		if (i < 7) {
-			colMax = 7;
-		}
-		else if (i < 13) {
-			colMax = 13;
-		}
-		else if (i < 18) {
-			colMax = 18;
-		}
-		else if (i < 22) {
-			colMax = 22;
-		}
-		else if (i < 25) {
-			colMax = 25;
-		}
-		else if (i < 27) {
-			colMax = 27;
-		}
-		else if (i < 28) {
-			colMax = 28;
-		}
+		if (i < 7) colMax = 7;
+		else if (i < 13) colMax = 13;
+		else if (i < 18) colMax = 18;
+		else if (i < 22) colMax = 22;
+		else if (i < 25) colMax = 25;
+		else if (i < 27) colMax = 27;
+		else if (i < 28) colMax = 28;
 
 		int const col = i - (prevColMax - layer);
 		newCard->setColumn(col);
