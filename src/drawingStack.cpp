@@ -13,8 +13,20 @@ DrawingStack* DrawingStack::get() {
 }
 
 void DrawingStack::drawCard() {
-	auto newCard = Card::create();
+	auto cardToDraw = m_cardsOnDeck[m_drawnAmount];
+	Type type = Type::NONE;
+	for (int i = 0; i < 4; i++) {
+		if (cardToDraw.contains((Type) i)) {
+			type = (Type) i;
+		}
+	}
+	if (type == Type::NONE) return;
+
+	auto* drawingCard = m_drawingCard.value();
+
+	auto* newCard = Card::create(type, cardToDraw[type]);
 	newCard->setFlipped(false);
+	newCard->setPosition(drawingCard->getPositionX() + CARD_WIDTH + 2, drawingCard->getPositionY());
 	m_drawnAmount++;
 }
 
