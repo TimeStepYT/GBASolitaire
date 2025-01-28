@@ -13,6 +13,7 @@ DrawingStack* DrawingStack::get() {
 }
 
 void DrawingStack::drawCard() {
+	if (m_drawnAmount > m_cardsOnDeck.size() - 1) return;
 	auto cardToDraw = m_cardsOnDeck[m_drawnAmount];
 	Type type = Type::NONE;
 	for (int i = 0; i < 4; i++) {
@@ -37,7 +38,7 @@ void DrawingStack::drawCard() {
 
 void DrawingStack::initDrawingStack() {
 	int cardsAdded = 0;
-	auto game = Game::get();
+	auto* game = Game::get();
 	while (cardsAdded < 24) {
 		game->m_rndm.update();
 		auto& cardsOccupied = game->m_cardsOccupied;
