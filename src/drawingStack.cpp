@@ -24,9 +24,14 @@ void DrawingStack::drawCard() {
 
 	auto* drawingCard = m_drawingCard.value();
 
+	if (m_drawnCards.size() != 0) {
+		m_drawnCards[m_drawnCards.size() - 1]->setVisible(false);
+	}
+
 	auto* newCard = Card::create(type, cardToDraw[type]);
 	newCard->setFlipped(false);
 	newCard->setPosition(drawingCard->getPositionX() + CARD_WIDTH + 2, drawingCard->getPositionY());
+	m_drawnCards.push_back(newCard);
 	m_drawnAmount++;
 }
 
@@ -35,18 +40,18 @@ void DrawingStack::initDrawingStack() {
 	auto game = Game::get();
 	while (cardsAdded < 24) {
 		game->m_rndm.update();
-		int randomNumber = game->m_rndm.get_int(13) + 1;
-		Type randomType = (Type) game->m_rndm.get_int(4);
-		int leave = false;
-		for (auto card : m_cardsOnDeck) {
-			if (card.contains(randomType) && card[randomType] == randomNumber) {
+		auto& cardsOccupied = game->m_cardsOccupied;
+		Type cardType = Type::NONE;
+		int cardNumber = 0;
+		bool leave = false;
+		while (!leave) {
+			cardType = (Type) game->m_rndm.get_int(4);
+			cardNumber = game->m_rndm.get_int(13) + 1;
+			if (Game::addNumberToVector(cardsOccupied[cardType], cardNumber))
 				leave = true;
-				break;
-			}
 		}
-		if (leave) continue;
 		bn::unordered_map<Type, int, 1> map;
-		map[randomType] = randomNumber;
+		map[cardType] = cardNumber;
 		m_cardsOnDeck.push_back(map);
 		cardsAdded++;
 	}

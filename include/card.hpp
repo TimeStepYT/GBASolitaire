@@ -21,10 +21,11 @@ protected:
 	int m_column = 7;								// The column a card is in
 	int m_layer = 0;								// The layer a card is on
 	bool m_flipped = true;							// If a card is flipped so you can't see what's on it
+	bool m_visible = true;							// If a card is visible
 public:
 	// Creates a card with the given type and number
 	static Card* create(Type, int);
-	
+
 	// Creates a card with nothing on it
 	static Card* create();
 
@@ -57,4 +58,10 @@ public:
 
 	// Returns if a card is spade or clubs
 	bool isBlack();
+
+	// Sets the visibility of a card
+	void setVisible(bool);
+
+	// Returns if a card is visible
+	bool getVisible();
 };

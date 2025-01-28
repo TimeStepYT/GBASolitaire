@@ -26,4 +26,7 @@ public:
 
 	// The game loop								
 	void gameLoop();
+
+	// Adds a number to a vector if it's not already in it and returns if it was successful
+	static bool addNumberToVector(bn::vector<int, 13>&, int);
 };

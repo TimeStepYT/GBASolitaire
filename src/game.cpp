@@ -12,8 +12,8 @@ Game* Game::get() {
 	return m_instance;
 }
 
-// Adds a number to a vector if it's not already in it and returns if it was successful
-bool addNumberToVector(bn::vector<int, 13>& vec, int content) {
+
+bool Game::addNumberToVector(bn::vector<int, 13>& vec, int content) {
 	if (bn::find(vec.begin(), vec.end(), content) == vec.end()) {
 		vec.push_back(content);
 		return true;

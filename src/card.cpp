@@ -112,5 +112,18 @@ bool Card::isBlack() {
 	return m_type == Type::CLUB || m_type == Type::SPADE;
 }
 
+void Card::setVisible(bool visible) {
+	m_visible = visible;
 
-bn::vector<Card*, 52> cards;
+	if (visible && m_baseSprites.size() == 0) {
+		initFaceSprites();
+	}
+	else if (!visible && m_baseSprites.size() != 0) {
+		m_baseSprites.erase(m_baseSprites.begin(), m_baseSprites.end());
+		m_faceSprites.erase(m_faceSprites.begin(), m_faceSprites.end());
+	}
+}
+
+bool Card::getVisible() {
+	return m_visible;
+}
