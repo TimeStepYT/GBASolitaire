@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "drawingStack.hpp"
 #include "global.hpp"
 #include "bn_keypad.h"
 
@@ -28,8 +29,8 @@ void Game::initPlayingBoard() {
 		int cardNumber;
 		bool leave = false;
 		while (!leave) {
-			cardType = (Type) rndm.get_int(4);
-			cardNumber = rndm.get_int(13) + 1;
+			cardType = (Type) m_rndm.get_int(4);
+			cardNumber = m_rndm.get_int(13) + 1;
 			if (addNumberToVector(m_cardsOccupied[cardType], cardNumber))
 				leave = true;
 		}
@@ -72,48 +73,24 @@ void Game::initPlayingBoard() {
 	}
 }
 
-void Game::initDrawingStack() {
-	int cardsAdded = 0;
-	while (cardsAdded < 24) {
-		rndm.update();
-		int randomNumber = rndm.get_int(13) + 1;
-		Type randomType = (Type) rndm.get_int(4);
-
-		if (m_cardsOnDeck.contains(randomType)) {
-			auto allOfType = m_cardsOnDeck[randomType];
-			if (bn::find(allOfType.begin(), allOfType.end(), randomNumber) != allOfType.end())
-				continue;
-		}
-		m_cardsOnDeck[randomType].push_back(randomNumber);
-		cardsAdded++;
-	}
-	auto newCard = Card::create();
-	newCard->setPosition(-SCREEN_WIDTH / 2 + CARD_WIDTH / 2 + 2, -SCREEN_HEIGHT / 2 + CARD_HEIGHT / 2 + 3);
-	drawingCard = newCard;
-}
-
 void Game::setupGame() {
-	rndm.update();
+	m_rndm.update();
 
 	initPlayingBoard();
-	initDrawingStack();
-}
-
-void Game::drawCard() {
-
+	DrawingStack::get()->initDrawingStack();
 }
 
 void Game::gameLoop() {
 	bool setUp = false;
 	while (true) {
-		rndm.update();
+		m_rndm.update();
 
 		if (bn::keypad::a_pressed() && !setUp) {
 			setupGame();
 			setUp = true;
 		}
 		else if (bn::keypad::l_pressed() && setUp) {
-			drawCard();
+			DrawingStack::get()->drawCard();
 		}
 
 		bn::core::update();
