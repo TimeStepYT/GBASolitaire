@@ -133,3 +133,11 @@ void Card::setVisible(bool visible) {
 bool Card::getVisible() {
 	return m_visible;
 }
+
+void Card::hide() {
+	setVisible(false);
+}
+
+void Card::show() {
+	setVisible(true);
+}

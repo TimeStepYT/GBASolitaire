@@ -69,4 +69,10 @@ public:
 
 	// Returns if a card is visible
 	bool getVisible();
+
+	// Wrapper of setVisible, hides a card
+	void hide();
+
+	// Wrapper of setVisible, shows a card
+	void show();
 };

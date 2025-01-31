@@ -13,9 +13,9 @@ DrawingStack* DrawingStack::get() {
 }
 
 void DrawingStack::resetDrawingStack() {
-	m_drawnCards[m_drawnCards.size() - 1]->setVisible(false);
+	m_drawnCards[m_drawnCards.size() - 1]->hide();
 	m_drawnCards.clear();
-	m_drawingCard.value()->setVisible(true);
+	m_drawingCard.value()->show();
 	m_drawnAmount = 0;
 }
 
@@ -37,7 +37,7 @@ void DrawingStack::drawCard() {
 	auto* drawingCard = m_drawingCard.value();
 
 	if (m_drawnCards.size() != 0) {
-		m_drawnCards[m_drawnCards.size() - 1]->setVisible(false);
+		m_drawnCards[m_drawnCards.size() - 1]->hide();
 	}
 
 	auto* newCard = Card::create(type, cardToDraw[type]);
@@ -47,7 +47,7 @@ void DrawingStack::drawCard() {
 	m_drawnAmount++;
 	
 	if (m_drawnAmount > m_cardsOnDeck.size() - 1) {
-		drawingCard->setVisible(false);
+		drawingCard->hide();
 	}
 }
 
