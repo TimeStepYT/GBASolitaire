@@ -20,4 +20,7 @@ public:
 
 	// Sets the drawing stack up
 	void initDrawingStack();
+
+	// Puts all of the drawn cards back into the stack
+	void resetDrawingStack();
 };

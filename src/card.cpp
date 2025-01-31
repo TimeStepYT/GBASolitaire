@@ -15,18 +15,17 @@ Card* Card::create(Type type, int number) {
 	auto ret = new Card();
 	ret->m_type = type;
 	ret->m_number = number;
-	ret->m_baseSprites.push_back(bn::sprite_items::card_back_top.create_sprite(0, -17));
-	ret->m_baseSprites.push_back(bn::sprite_items::card_back.create_sprite(0, 5));
+	ret->createBackground();
 	return ret;
 }
 
 Card* Card::create() {
-	auto ret = new Card();
-	ret->m_type = Type::NONE;
-	ret->m_number = 0;
-	ret->m_baseSprites.push_back(bn::sprite_items::card_back_top.create_sprite(0, -17));
-	ret->m_baseSprites.push_back(bn::sprite_items::card_back.create_sprite(0, 5));
-	return ret;
+	return Card::create(Type::NONE, 0);
+}
+
+void Card::createBackground() {
+	m_baseSprites.push_back(bn::sprite_items::card_back_top.create_sprite(0, -17));
+	m_baseSprites.push_back(bn::sprite_items::card_back.create_sprite(0, 5));
 }
 
 void Card::setLayer(int layer) {
@@ -35,7 +34,8 @@ void Card::setLayer(int layer) {
 }
 
 void Card::initFaceSprites() {
-	if (m_number == 0 || m_number > 13 || m_type >= (Type) 4) return; // shouldn't happen but better to be safe
+	if (m_number == 0 || m_number > 13 || m_type >= (Type) 4) return;
+
 	int offset = isBlack() ? 0 : 13;
 	auto numberTile = bn::sprite_items::numbers.tiles_item().create_tiles(m_number - 1 + offset);
 	auto symbolTile = bn::sprite_items::symbols.tiles_item().create_tiles(m_type);
@@ -77,6 +77,7 @@ void Card::setPositionY(bn::fixed y) {
 
 void Card::setColumn(int column) {
 	if (column >= 7) return;
+
 	m_column = column;
 	auto& stack = Game::get()->m_cardsOnCol[column];
 	if (stack.size() != 0) {
@@ -90,6 +91,7 @@ void Card::setColumn(int column) {
 
 void Card::setFlipped(bool flipped) {
 	if (flipped == m_flipped) return;
+
 	m_flipped = flipped;
 	if (flipped) {
 		m_baseSprites[0].set_tiles_and_palette(bn::sprite_items::card_back_top.tiles_item().create_tiles(0), bn::sprite_items::card_back_top.palette_item().create_palette());
@@ -116,11 +118,15 @@ void Card::setVisible(bool visible) {
 	m_visible = visible;
 
 	if (visible && m_baseSprites.size() == 0) {
+		createBackground();
 		initFaceSprites();
+		setPosition(m_hiddenX, m_hiddenY);
 	}
 	else if (!visible && m_baseSprites.size() != 0) {
-		m_baseSprites.erase(m_baseSprites.begin(), m_baseSprites.end());
-		m_faceSprites.erase(m_faceSprites.begin(), m_faceSprites.end());
+		m_hiddenX = getPositionX();
+		m_hiddenY = getPositionY();
+		m_baseSprites.clear();
+		m_faceSprites.clear();
 	}
 }
 

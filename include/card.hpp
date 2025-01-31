@@ -22,12 +22,17 @@ protected:
 	int m_layer = 0;								// The layer a card is on
 	bool m_flipped = true;							// If a card is flipped so you can't see what's on it
 	bool m_visible = true;							// If a card is visible
+	bn::fixed m_hiddenX = 0;						// X value intended to store the card's position while hidden
+	bn::fixed m_hiddenY = 0;						// Y value intended to store the card's position while hidden
 public:
 	// Creates a card with the given type and number
 	static Card* create(Type, int);
 
 	// Creates a card with nothing on it
 	static Card* create();
+
+	// Creates the background of a card
+	void createBackground();
 
 	// Sets up the sprites on a card			
 	void initFaceSprites();

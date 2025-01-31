@@ -12,8 +12,19 @@ DrawingStack* DrawingStack::get() {
 	return m_instance;
 }
 
+void DrawingStack::resetDrawingStack() {
+	m_drawnCards[m_drawnCards.size() - 1]->setVisible(false);
+	m_drawnCards.clear();
+	m_drawingCard.value()->setVisible(true);
+	m_drawnAmount = 0;
+}
+
 void DrawingStack::drawCard() {
-	if (m_drawnAmount > m_cardsOnDeck.size() - 1) return;
+	if (m_drawnAmount > m_cardsOnDeck.size() - 1) {
+		resetDrawingStack();
+		return;
+	}
+
 	auto cardToDraw = m_cardsOnDeck[m_drawnAmount];
 	Type type = Type::NONE;
 	for (int i = 0; i < 4; i++) {
@@ -34,6 +45,10 @@ void DrawingStack::drawCard() {
 	newCard->setPosition(drawingCard->getPositionX() + CARD_WIDTH + 2, drawingCard->getPositionY());
 	m_drawnCards.push_back(newCard);
 	m_drawnAmount++;
+	
+	if (m_drawnAmount > m_cardsOnDeck.size() - 1) {
+		drawingCard->setVisible(false);
+	}
 }
 
 void DrawingStack::initDrawingStack() {
